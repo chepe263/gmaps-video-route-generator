@@ -22,6 +22,10 @@
 #include <QString>
 #include <QPixmap>
 
+#include <QWebEngineView>
+#include <QWebEnginePage>
+#include <QMessageBox>
+
 class RGGoogleMap : public QDialog
 {
 	Q_OBJECT
@@ -29,10 +33,12 @@ class RGGoogleMap : public QDialog
 public:
 	RGGoogleMap(QWidget *parent);
 
-	QPixmap getMap() const {return m_map;}
+    QPixmap getMap() const {return m_map;}
+    ~RGGoogleMap();
 
 public slots:
 	void accept();
+    void rejected();
 
 private slots:
   void on_goButton_clicked(bool);
@@ -48,4 +54,17 @@ private:
 	Ui_googleMap ui;
 	QString    m_html_template;
 	QPixmap    m_map;
+
+    //ToDo: Create function that destroys the webview page and the webview
+    //void unload_qwebengine();
+    //tries to delete the page on the ui.webengine and the ui.webengine itself
+    //void unload_qwebengine()
+    //{
+        //if(ui.webView->page() != nullptr){
+        //    ui.webView->page()->~QWebEnginePage();
+        //}
+        //if(ui.webView != nullptr){
+        //    ui.webView->close();
+        //}
+    //}
 };

@@ -24,6 +24,7 @@
 #include <QFile>
 #include <QFileDialog>
 
+#include "RGApplicationName.h"
 #include "RGMainWindow.h"
 
 /*

@@ -29,7 +29,7 @@ RGEditPath::RGEditPath(QGraphicsItem *parent) :
 {
   setPos(0,0);
   setCursor(Qt::CrossCursor);
-  setAcceptsHoverEvents(true);
+  setAcceptHoverEvents(true);
   setFlag(QGraphicsItem::ItemHasNoContents);
 }
 

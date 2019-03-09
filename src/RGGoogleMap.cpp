@@ -26,7 +26,7 @@
  * Workaround with google api, dragging the map doesn't work,
  * emulating Chrome, fixes this.
  */
-class myWebPage : public QWebPage
+class myWebPage : public QWebEnginePage
 {
 protected:
 
@@ -49,8 +49,12 @@ RGGoogleMap::RGGoogleMap(QWidget *parent)
 	ui.setupUi(this);
 
 	QFile file("google-maps-template.html");
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        QFileInfo fileInfo(file.fileName());
+		qDebug() << "I can't open google-maps-template.html !!!";
+        qDebug() << "Path:" << fileInfo.absoluteFilePath();
 		return;
+	}
 
 	QTextStream in(&file);
 	while (!in.atEnd()) {
@@ -59,26 +63,59 @@ RGGoogleMap::RGGoogleMap(QWidget *parent)
 
 	ui.progressBar->hide();
 	ui.progressBar->setRange(0, 100);
-  ui.spinBoxX->setValue(RGSettings::getGMXResolution());
-  ui.spinBoxY->setValue(RGSettings::getGMYResolution());
+    ui.spinBoxX->setValue(RGSettings::getGMXResolution());
+    ui.spinBoxY->setValue(RGSettings::getGMYResolution());
 
-  ui.webView->setPage(new myWebPage());
+    //ui.webView->setPage(new myWebPage());
 
 	//Init map resolution
 	on_fixButton_clicked(true);
 }
-
+RGGoogleMap::~RGGoogleMap()
+{
+    qDebug() << "~RGGoogleMap() destroyed";
+    if(ui.webView->page() != nullptr){
+        qDebug() << "RGGoogleMap destorying webview->page";
+        ui.webView->page()->~QWebEnginePage();
+    }
+    if(ui.webView != nullptr){
+        qDebug() << "RGGoogleMap destorying webview";
+        ui.webView->close();
+    }
+}
 void RGGoogleMap::accept()
 {
 	m_map = QPixmap(ui.webView->size());
 	ui.webView->render(&m_map);
 
-  RGSettings::setGMXResolution(ui.spinBoxX->value());
-  RGSettings::setGMYResolution(ui.spinBoxY->value());
+    RGSettings::setGMXResolution(ui.spinBoxX->value());
+    RGSettings::setGMYResolution(ui.spinBoxY->value());
+    qDebug() << "Closing dialog by accepted";
+    if(ui.webView->page() != nullptr){
+        qDebug() << "RGGoogleMap destorying webview->page";
+        ui.webView->page()->~QWebEnginePage();
+    }
+    if(ui.webView != nullptr){
+        qDebug() << "RGGoogleMap destorying webview";
+        ui.webView->close();
+    }
+
 
 	QDialog::accept();
 }
-
+void RGGoogleMap::rejected()
+{
+    qDebug() << "RGGoogleMap::rejected()";
+    if(ui.webView->page() != nullptr){
+        qDebug() << "RGGoogleMap destorying webview->page";
+        ui.webView->page()->~QWebEnginePage();
+    }
+    if(ui.webView != nullptr){
+        qDebug() << "RGGoogleMap destorying webview";
+        ui.webView->close();
+    }
+    QDialog::reject();
+}
 
 void RGGoogleMap::on_goButton_clicked(bool)
 {
@@ -88,13 +125,14 @@ void RGGoogleMap::on_goButton_clicked(bool)
 	//https://www.google.nl/maps/@52.374716,4.898623,12z
 
 	QString manUrl = ui.lineEdit->text();
-	QUrl url = manUrl;
+    QUrl url = manUrl;
 	QString latlon;
 	QString zoom;
 	if (url.hasFragment() || url.host().contains("google"))
 	{
-		latlon = url.queryItemValue ("ll");
-		zoom = url.queryItemValue ("z");
+        QUrlQuery query(url);
+        latlon = query.queryItemValue ("ll");
+        zoom = query.queryItemValue ("z");
 		if (latlon.isEmpty() || zoom.isEmpty())
 		{
 			//Now try the new google maps URL format (the construction is not supported by QUrl, so parse the URL manually
@@ -122,7 +160,11 @@ void RGGoogleMap::on_goButton_clicked(bool)
 		return;
 	}
 
-
+    if(ui.webView->page() != nullptr){
+        qDebug() << "RGGoogleMap destorying webview->page";
+        ui.webView->page()->~QWebEnginePage();
+        ui.webView->setPage(new myWebPage());
+    }
 	ui.webView->setHtml(genHtml(latlon, zoom));
 	ui.webView->reload();
 }
@@ -165,3 +207,4 @@ QString RGGoogleMap::genHtml(const QString &latlon, const QString &zoom) const
 
 	return html;
 }
+

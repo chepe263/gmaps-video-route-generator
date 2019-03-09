@@ -29,6 +29,7 @@
 #include "RGVehicleList.h"
 #include "RGVehicleOriginPt.h"
 #include <QGraphicsScene>
+#include <QMessageBox>
 
 class RGVehicleDialog : public QDialog
 {

@@ -24,6 +24,8 @@
 #include <QMainWindow>
 #include <QProcess>
 #include <QStringList>
+#include <QTextBrowser>
+#include <QFileDialog>
 
 class QWidget;
 class QTimer;

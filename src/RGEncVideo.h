@@ -23,8 +23,9 @@
 
 #include <QObject>
 #include <QProcess>
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 #include "ui_videosettings.h"
+#include <QFileDialog>
 
 class RGEncVideo : public QWidget
 {

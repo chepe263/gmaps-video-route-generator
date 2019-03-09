@@ -10,7 +10,8 @@ INCLUDEPATH += .
 MOC_DIR = ./build/moc
 OBJECTS_DIR = ./build/obj
 UI_DIR = ./build/ui
-QT += webkit
+#QT += webkit
+QT += gui core webengine widgets webenginewidgets
 
 # Input
 HEADERS += RGMainWindow.h RGVehicleDialog.h RGSettings.h RGSettingsDialog.h RGGoogleMap.h \
@@ -27,7 +28,8 @@ HEADERS += RGMainWindow.h RGVehicleDialog.h RGSettings.h RGSettingsDialog.h RGGo
     RGEditPath.h \
     RGVehicleOriginPt.h \
     RGUndoRedo.h \
-    RGGraphicsObjectUndo.h
+    RGGraphicsObjectUndo.h \
+    RGApplicationName.h
 FORMS += routegen.ui settings.ui googlemap.ui \
     vehicledialog.ui \
     videosettings.ui \

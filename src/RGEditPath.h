@@ -23,6 +23,8 @@
 
 #include <QGraphicsObject>
 #include <QtGui>
+#include <QGraphicsView>
+#include <QGraphicsSceneMouseEvent>
 #include "RGEditPathPoint.h"
 
 class RGEditPath : public QGraphicsObject

@@ -25,6 +25,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
 #include <QTimer>
+#include <QMessageBox>
+#include <QProgressDialog>
 #include "RGRoute.h"
 
 class RGViewWidget : public QGraphicsView

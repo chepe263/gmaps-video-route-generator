@@ -24,6 +24,8 @@
 #include <QGraphicsObject>
 #include <QPoint>
 #include <QtGui>
+#include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
 
 class RGEditPathPoint : public QGraphicsObject
 {
