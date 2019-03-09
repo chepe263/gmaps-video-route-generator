@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = app
-CONFIG += debug #release
+CONFIG += debug release
 TARGET = routegen
 DEPENDPATH += .
 INCLUDEPATH += .
