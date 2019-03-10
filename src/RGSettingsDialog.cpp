@@ -39,6 +39,11 @@ RGSettingsDialog::RGSettingsDialog(RGEncVideo *videoSettings,QWidget *parent)
 	ui.encoderSelectionLabel->setVisible(false);
 #endif
 
+    if (!ui.encoderSelectionCB->isVisible() && !ui.encoderSelectionLabel->isVisible()){
+        ui.groupBox_2->setVisible(false);
+
+    }
+
 
   mGenerateBeginEndFramesCB = ui.mIconLessBeginEndFramesCB;
   mSmoothLengthSB = ui.mSmoothLengthSB;
@@ -55,7 +60,7 @@ RGSettingsDialog::RGSettingsDialog(RGEncVideo *videoSettings,QWidget *parent)
 
 RGSettingsDialog::~RGSettingsDialog()
 {
-  ui.tabWidget->widget(0)->setParent(NULL);
+  ui.tabWidget->widget(0)->setParent(nullptr);
 }
 
 int RGSettingsDialog::getSmoothCoef()
@@ -81,8 +86,8 @@ void RGSettingsDialog::on_encoderSelectionCB_activated(const QString &text)
 void RGSettingsDialog::accept()
 {
   //Advanced settings
-	if (mVideoEncoder->encoderName() != ui.encoderSelectionCB->currentText())
-	{
+    if (ui.encoderSelectionCB->isVisible() && mVideoEncoder->encoderName() != ui.encoderSelectionCB->currentText())
+    {
 			QMessageBox::StandardButton answer = QMessageBox::question (this, "Encoder changed",
 		"Changing the encoder will reset the movie generation codec settings. Continue?",
                                            QMessageBox::Yes | QMessageBox::No,
@@ -97,7 +102,7 @@ void RGSettingsDialog::accept()
 			ui.encoderSelectionCB->setCurrentIndex(ui.encoderSelectionCB->findText(RGSettings::getVideoEncoder()));
 			return;
 		}
-	}
+    }
 
   RGSettings::setVideoEncoder(ui.encoderSelectionCB->currentText());
   RGSettings::setSmoothLength(mSmoothLengthSB->value());

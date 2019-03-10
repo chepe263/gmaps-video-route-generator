@@ -45,7 +45,7 @@ RGVehicleList::RGVehicleList()
 
   //Also look in user's local data directory for custom vehicles
   //TODO: Should also be working on linux: check! then above linux dependent block can be removed!
-  vehicleDir.setPath(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)  + "/vehicles");
+  vehicleDir.setPath(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)  + "/vehicles");
   if (vehicleDir.exists())
   {
     vehicles.append(vehicleDir.entryInfoList());

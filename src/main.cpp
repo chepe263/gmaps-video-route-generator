@@ -23,6 +23,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QFileDialog>
+#include <QSettings>
 
 #include "RGApplicationName.h"
 #include "RGMainWindow.h"
@@ -73,15 +74,19 @@
  *  v1.7.1  FFMpeg default converter and provided with the installation
  */
 
-extern const QString applicationName("Route Generator version 1.7.1");
+extern const QString applicationName("Route Generator version 1.7.1a");
 
 int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
 
   //For storing application settings
+  QSettings::setDefaultFormat(QSettings::IniFormat);
+  //ToDo: Make a self contained settings inside the app executable directory
+  //for a portable version of the app
   app.setOrganizationName("MJProductions");
   app.setApplicationName("Route Generator");
+
 
   RGMainWindow *mainWindow = new RGMainWindow;
   mainWindow->setWindowTitle(applicationName);

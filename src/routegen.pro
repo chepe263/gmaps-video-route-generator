@@ -3,15 +3,18 @@
 ######################################################################
 
 TEMPLATE = app
-CONFIG += debug release
-TARGET = routegen
+CONFIG += debug_and_release
+CONFIG(debug, debug|release) {
+    TARGET = "routegen_debug"
+} else {
+    TARGET = "routegen"
+}
 DEPENDPATH += .
 INCLUDEPATH += .
 MOC_DIR = ./build/moc
 OBJECTS_DIR = ./build/obj
 UI_DIR = ./build/ui
-#QT += webkit
-QT += gui core webengine widgets webenginewidgets
+QT += webenginewidgets
 
 # Input
 HEADERS += RGMainWindow.h RGVehicleDialog.h RGSettings.h RGSettingsDialog.h RGGoogleMap.h \
